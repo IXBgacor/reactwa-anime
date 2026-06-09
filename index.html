@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ReactWa Anime ✨ | Kirim Reaksi WhatsApp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a0033 0%, #2d004d 50%, #1a0033 100%);
+            min-height: 100vh;
+            padding: 16px;
+            position: relative;
+        }
+
+        /* Anime decorative elements */
+        body::before {
+            content: '🌸✨⭐💜';
+            position: fixed;
+            font-size: 80px;
+            opacity: 0.08;
+            bottom: 0;
+            right: 0;
+            pointer-events: none;
+            white-space: pre;
+            transform: rotate(-15deg);
+        }
+
+        .container {
+            max-width: 550px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Card anime style */
+        .card {
+            background: rgba(46, 16, 77, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 24px 20px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(156, 81, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(156, 81, 255, 0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .card:active {
+            transform: scale(0.99);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            text-align: center;
+            background: linear-gradient(135deg, #e6b3ff, #b77dff, #9c51ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #c9a5ff;
+            font-size: 0.8rem;
+            margin-top: 6px;
+            margin-bottom: 24px;
+            opacity: 0.9;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #d9b8ff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(20, 5, 40, 0.8);
+            border: 2px solid #6a2fc2;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #c97bff;
+            box-shadow: 0 0 12px rgba(201, 123, 255, 0.3);
+        }
+
+        .emoji-list {
+            background: rgba(20, 5, 40, 0.6);
+            border-radius: 20px;
+            padding: 12px;
+            min-height: 85px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .emoji-item {
+            background: linear-gradient(135deg, #7b3fe4, #b366ff);
+            padding: 8px 14px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1.3rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .emoji-item:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #9955ff, #cc88ff);
+        }
+
+        .remove-emoji {
+            background: rgba(0,0,0,0.4);
+            border: none;
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .add-emoji-section {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .add-emoji-section input {
+            flex: 2;
+            min-width: 120px;
+        }
+
+        .btn-small {
+            background: linear-gradient(135deg, #6a2fc2, #9c51ff);
+            border: none;
+            padding: 0 20px;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #882dff, #c55aff);
+            border: none;
+            border-radius: 60px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 12px;
+            box-shadow: 0 4px 15px rgba(136, 45, 255, 0.3);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            transform: none;
+        }
+
+        .status-card {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            padding: 12px 16px;
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .status-badge {
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-weight: bold;
+        }
+
+        .status-ready {
+            background: #00e676;
+            color: #1a0033;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .result {
+            margin-top: 16px;
+            padding: 14px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .result.show {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-success {
+            border-left: 5px solid #00e676;
+        }
+
+        .result-error {
+            border-left: 5px solid #ff4081;
+        }
+
+        .limit-text {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 16px;
+            color: #b87dff;
+        }
+
+        .history-item {
+            background: rgba(156, 81, 255, 0.15);
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 8px;
+            font-size: 0.75rem;
+            border-left: 3px solid #c97bff;
+        }
+
+        .wa-note {
+            background: rgba(0,0,0,0.4);
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #bda5e6;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.65rem;
+            color: #6a4d8c;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h1>✨ ReactWa <span style="background: linear-gradient(135deg,#ff99cc,#ff66cc); -webkit-background-clip:text; background-clip:text;">Anime</span> ✨</h1>
+        <div class="subtitle">💜 ʜᴀɴᴅᴀᴋᴀɴ ʀᴇᴀᴋꜱɪ ᴋᴇ ᴄʜᴀɴɴᴇʟ ᴡᴀ ᴅᴇɴɢᴀɴ ɢᴀʏᴀ ᴀɴɪᴍᴇ ᴘʀᴇᴛᴛʏ 💜</div>
+
+        <div class="input-group">
+            <label>🔗 URL Channel WhatsApp</label>
+            <input type="text" id="channelUrl" placeholder="https://whatsapp.com/channel/...">
+        </div>
+
+        <div class="input-group">
+            <label>😊 Daftar Emoji (klik hapus)</label>
+            <div class="emoji-list" id="emojiList">
+                <div class="emoji-item" data-emoji="🔥">🔥 <button class="remove-emoji">×</button></div>
+                <div class="emoji-item" data-emoji="✨">✨ <button class="remove-emoji">×</button></div>
+                <div class="emoji-item" data-emoji="❤️">❤️ <button class="remove-emoji">×</button></div>
+                <div class="emoji-item" data-emoji="🎉">🎉 <button class="remove-emoji">×</button></div>
+                <div class="emoji-item" data-emoji="🌸">🌸 <button class="remove-emoji">×</button></div>
+            </div>
+        </div>
+
+        <div class="add-emoji-section">
+            <input type="text" id="newEmoji" placeholder="Contoh: 🥰 atau 😎" maxlength="2">
+            <button class="btn-small" onclick="addCustomEmoji()">➕ Tambah</button>
+        </div>
+
+        <button class="btn" id="sendBtn" onclick="sendReaction()">
+            🚀 Kirim Reaksi!
+        </button>
+
+        <div class="status-card">
+            <span>📱 Device Key</span>
+            <span id="deviceKey" style="font-family: monospace; font-size: 0.7rem;">-</span>
+        </div>
+
+        <div class="status-card">
+            <span>⚡ Sisa Limit / 20</span>
+            <span id="limit" style="font-weight: bold; color: #cb9eff;">-</span>
+        </div>
+
+        <div class="status-card">
+            <span>🔌 Status</span>
+            <span id="status" class="status-badge status-ready">✅ Siap</span>
+        </div>
+        
+        <div class="limit-text">
+            💡 20 reaksi per sesi • Support emoji custom • History tersimpan
+        </div>
+    </div>
+
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+            <strong>📜 History reaksi terakhir</strong>
+            <button class="btn-small" onclick="clearHistory()" style="padding: 4px 12px;">Bersihkan</button>
+        </div>
+        <div id="historyList" style="max-height: 200px; overflow-y: auto;">
+            <div class="wa-note">✨ Kirim reaksi untuk melihat history ✨</div>
+        </div>
+    </div>
+
+    <div class="wa-note">
+        💜 Web ini 100% functional untuk mengirim reaksi (simulasi) + tampilan anime cantik.<br>
+        🌸 Untuk kirim ke WhatsApp asli dibutuhkan laptop karena library WhatsApp Web.
+    </div>
+    <footer>⚡ ReactWa Anime — dibuat dengan penuh 💜 untuk kamu</footer>
+</div>
+
+<div id="result" class="result"></div>
+
+<script>
+    let deviceKey = null;
+    let sessionId = null;
+    let csrfToken = null;
+
+    // Load dari localStorage
+    if (localStorage.getItem('deviceKey')) {
+        deviceKey = localStorage.getItem('deviceKey');
+        document.getElementById('deviceKey').innerText = deviceKey;
+    }
+
+    async function init() {
+        try {
+            const res = await fetch('/api/csrf-token');
+            const data = await res.json();
+            csrfToken = data.token;
+            sessionId = data.sessionId;
+
+            const deviceId = 'device_hp_' + Date.now();
+            const regRes = await fetch('/api/register-device', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-Session-Id': sessionId },
+                body: JSON.stringify({ deviceId })
+            });
+            const regData = await regRes.json();
+            if (regData.success) {
+                deviceKey = regData.deviceKey;
+                localStorage.setItem('deviceKey', deviceKey);
+                document.getElementById('deviceKey').innerText = deviceKey;
+                await checkStatus();
+                await loadHistory();
+            }
+        } catch (e) {
+            console.log("Init error:", e);
+            showResult('error', '⚠️ Gagal konek ke server. Pastikan server sudah jalan.');
+        }
+    }
+
+    async function checkStatus() {
+        if (!deviceKey) return;
+        try {
+            const res = await fetch(`/api/status/${deviceKey}`);
+            const data = await res.json();
+            document.getElementById('limit').innerText = `${data.remaining}/20`;
+        } catch(e) {}
+    }
+
+    async function loadHistory() {
+        try {
+            const res = await fetch('/api/history');
+            const data = await res.json();
+            const historyDiv = document.getElementById('historyList');
+            if (!data.history || data.history.length === 0) {
+                historyDiv.innerHTML = '<div class="wa-note">✨ Belum ada reaksi terkirim ✨</div>';
+                return;
+            }
+            historyDiv.innerHTML = data.history.map(h => `
+                <div class="history-item">
+                    <strong>${h.emoji}</strong> → ${new Date(h.timestamp).toLocaleTimeString()} <br>
+                    <span style="font-size:0.65rem; opacity:0.7;">${h.url?.substring(0, 40)}...</span>
+                </div>
+            `).join('');
+        } catch(e) {}
+    }
+
+    function getEmojis() {
+        const items = document.querySelectorAll('.emoji-item');
+        return Array.from(items).map(item => item.dataset.emoji).join(',');
+    }
+
+    window.addCustomEmoji = function() {
+        const input = document.getElementById('newEmoji');
+        let emoji = input.value.trim();
+        if (!emoji) {
+            showResult('error', '❌ Masukkan emoji dulu!');
+            return;
+        }
+        const emojiRegex = /[\p{Emoji}\uFE0F\u20E3]/gu;
+        const match = emoji.match(emojiRegex);
+        if (!match) {
+            showResult('error', '❌ Harus emoji asli! Contoh: 😊 ❤️');
+            return;
+        }
+        emoji = match[0];
+        const exists = Array.from(document.querySelectorAll('.emoji-item')).some(el => el.dataset.emoji === emoji);
+        if (exists) {
+            showResult('error', '⚠️ Emoji sudah ada');
+            return;
+        }
+        const container = document.getElementById('emojiList');
+        const div = document.createElement('div');
+        div.className = 'emoji-item';
+        div.dataset.emoji = emoji;
+        div.innerHTML = `${emoji} <button class="remove-emoji" onclick="removeEmoji(this)">×</button>`;
+        container.appendChild(div);
+        input.value = '';
+        showResult('success', `✅ ${emoji} ditambahkan!`);
+    };
+
+    window.removeEmoji = function(btn) {
+        btn.parentElement.remove();
+    };
+
+    async function sendReaction() {
+        const url = document.getElementById('channelUrl').value;
+        const emojis = getEmojis();
+        const btn = document.getElementById('sendBtn');
+        
+        if (!url) {
+            showResult('error', '❌ Masukkan URL channel WhatsApp!');
+            return;
+        }
+        if (!emojis) {
+            showResult('error', '❌ Tambahkan minimal 1 emoji');
+            return;
+        }
+        if (!deviceKey || !sessionId) {
+            showResult('error', '⚠️ Device belum siap, tunggu...');
+            return;
+        }
+        
+        btn.disabled = true;
+        btn.textContent = '⏳ Mengirim...';
+        
+        try {
+            const res = await fetch('/api/inject', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-Session-Id': sessionId },
+                body: JSON.stringify({ deviceKey, url, emojis, csrfToken, sessionId })
+            });
+            const data = await res.json();
+            if (data.success) {
+                showResult('success', `🎉 ${data.message}<br>${data.details?.join('<br>') || ''}`);
+                await checkStatus();
+                await loadHistory();
+            } else {
+                showResult('error', `❌ ${data.message}`);
+            }
+        } catch(err) {
+            showResult('error', `❌ Error: ${err.message}`);
+        } finally {
+            btn.disabled = false;
+            btn.textContent = '🚀 Kirim Reaksi!';
+        }
+    }
+
+    async function clearHistory() {
+        if (!deviceKey) return;
+        try {
+            await fetch('/api/history', { method: 'DELETE', body: JSON.stringify({ deviceKey }), headers: { 'Content-Type': 'application/json' } });
+            await loadHistory();
+            showResult('success', '🗑️ History dibersihkan');
+        } catch(e) {}
+    }
+
+    function showResult(type, msg) {
+        const div = document.getElementById('result');
+        div.innerHTML = msg;
+        div.className = `result show result-${type}`;
+        setTimeout(() => div.classList.remove('show'), 4000);
+    }
+
+    window.sendReaction = sendReaction;
+    setInterval(() => { checkStatus(); loadHistory(); }, 8000);
+    init();
+</script>
+</body>
+</html>
